@@ -1,57 +1,95 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 /* Styles */
 import styles from '../styles/index.module.css';
 import triangleStyles from '../styles/triangle.module.css';
 
 interface ITriangle {
+  h: number;
   a: number;
   b: number;
-  c: number;
 }
 
 const Home: NextPage = () => {
-  const [triangle, setTriangle] = useState<ITriangle>({a: 30, b: 40, c: 50});
+  const [triangle, setTriangle] = useState<ITriangle>({h: 50, a: 30, b: 40});
+
+  const getBiggerTriangleSize = () => {
+
+    return (
+      triangle.a >= triangle.b
+        ? triangle.a
+        : triangle.b
+    )
+  }
 
   const applyPythagoreanTheorem = () => {
     return (
-      (triangle.a * triangle.a) === (triangle.b * triangle.b) + (triangle.c * triangle.c)
-      || (triangle.b * triangle.b) === (triangle.a * triangle.a) + (triangle.c * triangle.c)
-      || (triangle.c * triangle.c) === (triangle.a * triangle.a) + (triangle.b * triangle.b)
+      (Math.pow(triangle.h, 2)) === (Math.pow(triangle.b, 2)) + (Math.pow(triangle.b, 2))
         ? 'Triângulo Retângulo'
         : 'Não é um triângulo retângulo'
     )
   }
 
+  const handleUpdateInput = (e: ChangeEvent<HTMLInputElement>, min: number, max: number) => {
+    let newValue = parseInt(e.target.value);
+
+    if (newValue < min) {
+      newValue = min;
+    } else if (newValue > max) {
+      newValue = max;
+    }
+
+    return newValue;
+  }
+
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.container}>
-        <input type="number" min={1} onChange={e => setTriangle({...triangle, a: parseFloat(e.target.value)})} value={triangle.a}/>
-        <input type="number" min={1} onChange={e => setTriangle({...triangle, b: parseFloat(e.target.value)})} value={triangle.b}/>
-        <input type="number" min={1} onChange={e => setTriangle({...triangle, c: parseFloat(e.target.value)})} value={triangle.c}/>
+        <div className="inputs">
+
+        </div>
+        <input
+          type="number"
+          min={1}
+          max={triangle.h - 1}
+          onChange={e => setTriangle({...triangle, a: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.a}
+        />
+        <input
+          type="number"
+          min={1}
+          max={triangle.h - 1}
+          onChange={e => setTriangle({...triangle, b: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.b}
+        />
+        <input
+          type="number"
+          min={1}
+          max={100}
+          onChange={e => setTriangle({...triangle, h: handleUpdateInput(e, 1, 100)})} value={triangle.h}
+        />
 
         <div>
           <input
             type="range"
-            min={0}
-            max={100}
+            min={1}
+            max={triangle.h - 1}
             value={triangle.a}
             onChange={e => setTriangle({...triangle, a: parseInt(e.target.value)})}
           />
           <input
             type="range"
-            min={0}
-            max={100}
+            min={1}
+            max={triangle.h - 1}
             value={triangle.b}
             onChange={e => setTriangle({...triangle, b: parseInt(e.target.value)})}
           />
           <input
             type="range"
-            min={0}
+            min={getBiggerTriangleSize() + 1}
+            disabled={getBiggerTriangleSize() >= 99}
             max={100}
-            value={triangle.c}
-            onChange={e => setTriangle({...triangle, c: parseInt(e.target.value)})}
+            value={triangle.h}
+            onChange={e => setTriangle({...triangle, h: parseInt(e.target.value)})}
           />
         </div>
 
@@ -59,13 +97,13 @@ const Home: NextPage = () => {
           <div 
             className={triangleStyles.triangle}
             style={{
-              borderTopWidth: `${triangle.a}px`,
-              borderBottomWidth: `${triangle.b}px`,
-              borderLeftWidth: `${triangle.c}px`,
+              borderLeftWidth: `${triangle.a}px`,
+              borderRightWidth: `${triangle.b}px`,
+              borderBottomWidth: `${triangle.h}px`,
             }}
           />
         </div>
-
+        
         <h1>{applyPythagoreanTheorem()}</h1>
       </div>
     </div>

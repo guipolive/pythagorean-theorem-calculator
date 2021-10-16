@@ -1,9 +1,14 @@
 .triangleContainer {
     padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .triangle {
-    border-top: solid transparent;
-    border-bottom: solid transparent;
-    border-left: solid green;
+    width: 0;
+    height: 0;
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid black;
 }
