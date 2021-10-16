@@ -24,10 +24,22 @@ const Home: NextPage = () => {
   }
 
   const applyPythagoreanTheorem = () => {
+    const isRectangle = (Math.pow(triangle.h, 2)) === (Math.pow(triangle.a, 2)) + (Math.pow(triangle.b, 2));
+
     return (
-      (Math.pow(triangle.h, 2)) === (Math.pow(triangle.b, 2)) + (Math.pow(triangle.b, 2))
-        ? 'Triângulo Retângulo'
-        : 'Não é um triângulo retângulo'
+      <p
+        className={triangleStyles.isRectangleText}
+        style={{
+          color: isRectangle
+            ? '#09A70F'
+            : '#A74209'
+        }}
+      >
+        {isRectangle
+          ? 'É um triângulo retângulo!'
+          : 'Não é um triângulo retângulo...'
+        }
+      </p>
     )
   }
 
@@ -46,9 +58,21 @@ const Home: NextPage = () => {
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.container}>
-        <div className="inputs">
 
+        <div className={triangleStyles.triangleContainer}>
+          <div 
+            className={triangleStyles.triangle}
+            style={{
+              borderLeftWidth: `${triangle.a}px`,
+              borderRightWidth: `${triangle.b}px`,
+              borderBottomWidth: `${triangle.h}px`,
+            }}
+          />
+
+          {applyPythagoreanTheorem()}
+          
         </div>
+
         <input
           type="number"
           min={1}
@@ -93,18 +117,8 @@ const Home: NextPage = () => {
           />
         </div>
 
-        <div className={triangleStyles.triangleContainer}>
-          <div 
-            className={triangleStyles.triangle}
-            style={{
-              borderLeftWidth: `${triangle.a}px`,
-              borderRightWidth: `${triangle.b}px`,
-              borderBottomWidth: `${triangle.h}px`,
-            }}
-          />
-        </div>
+
         
-        <h1>{applyPythagoreanTheorem()}</h1>
       </div>
     </div>
   )

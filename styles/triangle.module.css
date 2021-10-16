@@ -1,8 +1,9 @@
 .triangleContainer {
-    padding: 50px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 50px;
 }
 
 .triangle {
@@ -11,4 +12,10 @@
     border-left: solid transparent;
     border-right: solid transparent;
     border-bottom: solid black;
+}
+
+.isRectangleText {
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
 }
