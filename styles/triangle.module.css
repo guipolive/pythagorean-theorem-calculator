@@ -1,0 +1,9 @@
+.triangleContainer {
+    padding: 50px;
+}
+
+.triangle {
+    border-top: solid transparent;
+    border-bottom: solid transparent;
+    border-left: solid green;
+}
