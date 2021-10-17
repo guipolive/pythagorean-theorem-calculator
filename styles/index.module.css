@@ -12,7 +12,7 @@
 
 .container {
     width: 80%;
-    max-width: 700px;
+    max-width: 330px;
     padding: 50px;
 
     display: flex;
@@ -21,4 +21,50 @@
 
     background-color: blanchedalmond;
     border-radius: 10px;
+}
+
+@media (max-width: 450px) {
+    .container {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+}
+
+.inputs {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.inputs__row {
+
+}
+
+.inputs__row__title {
+    font-size: 12px;
+    color: darkgray;
+}
+
+.inputs__row__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    
+}
+
+.inputs__row__actions input[type='number'] {
+    width: 50px;
+    margin-left: 10px;
+    text-align: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.inputs__row__actions input[type=number]::-webkit-inner-spin-button, 
+.inputs__row__actions input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
 }
