@@ -1,34 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Sobre o projeto
 
-## Getting Started
+- O objetivo principal da implementação desse projeto foi participar do processo seletivo da empresa @Cromai [`https://www.cromai.com/`](https://www.cromai.com/)
+- Aproveitei também para colocar meus estudos de Next.JS em prática e aprender um pouco mais sobre a API no Next.JS
 
-First, run the development server:
+## Funcionalidades extras
 
-```bash
+> Tema escuro!
+
+  ![cromai_darkMode](https://user-images.githubusercontent.com/36776702/137642179-6b8dc6bc-9018-4427-a6e5-5b3859711cfc.gif)
+
+> Cálculo do terceiro lado do triângulo
+
+  ![cromai_calculateThird](https://user-images.githubusercontent.com/36776702/137642198-ef1d8461-1eb0-42f6-97c9-e70905ebce57.gif)
+
+> Limpar campos
+
+  ![cromai_clean](https://user-images.githubusercontent.com/36776702/137642211-9e1c79eb-b0e1-4ea7-9537-dc9c72f57125.gif)
+
+## Sobre o desenvolvimento
+
+- O desenvolvimento da aplicação foi feito utilizando `Typescript`, `React.JS` e `Next.js`
+- Também utilizei a funcionalidade de `API` do `Next.JS` para realizar alguns pequenos testes.
+    - Ainda que essa não seja a melhor abordagem para esse projeto, quis utilizar a API para testar e entender melhor essa funcionalidade do Next.JS.
+
+## Testando online
+
+- O projeto está hospedado no link [`https://pythagorean-theorem-calculator-nu.vercel.app/`](https://pythagorean-theorem-calculator-nu.vercel.app/)
+
+## Rodando o projeto
+
+- Para rodar o projeto localmente, utilize o comando:
+
+```
 npm run dev
 # or
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Abra [http://localhost:3000](http://localhost:3000/) e veja o resultado!
