@@ -14,6 +14,7 @@ interface ITriangle {
 const Home: NextPage = () => {
   const [triangle, setTriangle] = useState<ITriangle>({h: 50, a: 30, b: 40});
   const [numberOfSidesCalculated, setNumberOfSidesCalculated] = useState<number>(0);
+  const [theme, setTheme] = useState<number>(0);
 
   const getBiggerTriangleSize = () => {
 
@@ -36,8 +37,8 @@ const Home: NextPage = () => {
         className={triangleStyles.isRectangleText}
         style={{
           color: isRectangle
-            ? '#09A70F'
-            : '#A74209'
+            ? 'var(--theme-color-success)'
+            : 'var(--theme-color-danger)'
         }}
       >
         {isRectangle
@@ -98,6 +99,28 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
+    setTheme(parseInt(window.localStorage.getItem('theme') || '0'));
+  }, [])
+
+  useEffect(() => {
+    /* Dark */
+    if(theme % 2 > 0){
+      document.documentElement.style.setProperty("--color-black", '#FFFF');    
+      document.documentElement.style.setProperty("--color-white", "#212121");
+      document.documentElement.style.setProperty("--theme-color-danger", "var(--color-red2)");
+    }
+    /* Light */
+    else {
+      document.documentElement.style.setProperty("--color-black", '#212121');    
+      document.documentElement.style.setProperty("--color-white", "#FFFF");
+      document.documentElement.style.setProperty("--theme-color-danger", "var(--color-red)");
+    }
+
+    window.localStorage.setItem('theme', theme.toString());
+
+  }, [theme]);
+
+  useEffect(() => {
     let calculatedSidesCounter = 0;
     if (triangle.a) calculatedSidesCounter += 1;
     if (triangle.b) calculatedSidesCounter += 1;
@@ -109,6 +132,9 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.pageWrapper}>
+      <div onClick={() => setTheme(theme + 1)} className={`${styles.actionButton} ${styles.actionButton_themeChanger}`}>
+        <span>Mudar tema</span>
+      </div>
       <div className={styles.container}>
 
         {renderTriangle()}
@@ -179,6 +205,15 @@ const Home: NextPage = () => {
 
         {renderCalculateThirdSide()}
 
+      </div>
+      <div className={`${styles.actionButton} ${styles.actionButton_link}`}>
+        <a 
+          target={'_blank'}
+          rel="noreferrer"
+          href={'https://guipo.notion.site'}
+        >
+          Entrar em contato
+          </a>
       </div>
     </div>
   )
