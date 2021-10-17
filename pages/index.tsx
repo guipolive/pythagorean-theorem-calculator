@@ -11,7 +11,8 @@ const Home: NextPage = () => {
   const [triangle, setTriangle] = useState<ITriangle>({h: 50, a: 30, b: 40});
   const [numberOfSidesCalculated, setNumberOfSidesCalculated] = useState<number>(0);
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
-  const [triangleResponse, setTriangleResponse] = useState<ITriangleResponseData>({} as ITriangleResponseData)
+  const [triangleResponse, setTriangleResponse] = useState<ITriangleResponseData>({} as ITriangleResponseData);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getBiggerTriangleSize = () => {
     return (
@@ -22,10 +23,12 @@ const Home: NextPage = () => {
   }
 
   const testIfIsRectangle = async () => {
+    setIsLoading(true);
     const response = await fetch(`/api/calculate?a=${triangle.a}&b=${triangle.b}&h=${triangle.h}`);
     const data: ITriangleResponseData = await response.json();
-
+    
     setTriangleResponse(data);
+    setIsLoading(false);
   }
 
   const renderTriangleAnswer = () => {
@@ -42,7 +45,7 @@ const Home: NextPage = () => {
             : 'var(--theme-color-danger)'
         }}
       >
-        {triangleResponse.message}
+        {isLoading ? 'Calculando...' : triangleResponse.message}
       </p>
     )
   }
@@ -210,7 +213,7 @@ const Home: NextPage = () => {
         >
           Entrar em contato
         </a>
-        
+
       </div>
     </div>
   )
