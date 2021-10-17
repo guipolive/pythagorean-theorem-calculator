@@ -1,5 +1,5 @@
-import type { NextPage } from 'next'
-import { ChangeEvent, useEffect, useState } from 'react'
+import type { NextPage } from 'next';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { ITriangleResponseData, ITriangle } from '../model/Triangle';
 
 /* Styles */
@@ -31,6 +31,36 @@ const Home: NextPage = () => {
     setIsLoading(false);
   }
 
+  const handleUpdateInput = (e: ChangeEvent<HTMLInputElement>, min: number, max: number) => {
+    let newValue = parseInt(e.target.value);
+
+    if (newValue < min) {
+      newValue = min;
+    } else if (newValue > max) {
+      newValue = max;
+    }
+
+    return newValue;
+  }
+
+  const calculateThirdSide = () => {
+    if (triangle.h) {
+      if (triangle.a) {
+        setTriangle({...triangle, b: Math.fround(Math.sqrt((Math.pow(triangle.h, 2)) - (Math.pow(triangle.a, 2))))})
+      } else {
+        setTriangle({...triangle, a: Math.fround(Math.sqrt((Math.pow(triangle.h, 2)) - (Math.pow(triangle.b, 2))))})
+    }
+    } else {
+      setTriangle({...triangle, h: Math.sqrt(Math.pow(triangle.a, 2) + (Math.pow(triangle.b, 2)))})
+    }
+  }
+
+  const renderCalculateThirdSide = () => {
+    if (numberOfSidesCalculated === 2) {
+      return <p onClick={calculateThirdSide} className={styles.calculateThirdSide}>Calcular terceiro lado</p>;
+    }
+  }
+
   const renderTriangleAnswer = () => {
     if (numberOfSidesCalculated !== 3) {
       return;
@@ -48,36 +78,6 @@ const Home: NextPage = () => {
         {isLoading ? 'Calculando...' : triangleResponse.message}
       </p>
     )
-  }
-
-  const handleUpdateInput = (e: ChangeEvent<HTMLInputElement>, min: number, max: number) => {
-    let newValue = parseInt(e.target.value);
-
-    if (newValue < min) {
-      newValue = min;
-    } else if (newValue > max) {
-      newValue = max;
-    }
-
-    return newValue;
-  }
-
-  const renderCalculateThirdSide = () => {
-    if (numberOfSidesCalculated === 2) {
-      return <p onClick={calculateThirdSide} className={styles.calculateThirdSide}>Calcular terceiro lado</p>;
-    }
-  }
-
-  const calculateThirdSide = () => {
-    if (triangle.h) {
-      if (triangle.a) {
-        setTriangle({...triangle, b: Math.fround(Math.sqrt((Math.pow(triangle.h, 2)) - (Math.pow(triangle.a, 2))))})
-      } else {
-        setTriangle({...triangle, a: Math.fround(Math.sqrt((Math.pow(triangle.h, 2)) - (Math.pow(triangle.b, 2))))})
-    }
-    } else {
-      setTriangle({...triangle, h: Math.sqrt(Math.pow(triangle.a, 2) + (Math.pow(triangle.b, 2)))})
-    }
   }
 
   const renderTriangle = () => {
@@ -164,6 +164,7 @@ const Home: NextPage = () => {
     )
   }
 
+  /* Initializing Theme and IsRectangleAnswer */
   useEffect(() => {
     const currentTheme: 'light' | 'dark' = window.localStorage.getItem('theme') as 'light' | 'dark' ?? 'light';
     setTheme(currentTheme);
@@ -175,14 +176,15 @@ const Home: NextPage = () => {
     changeTheme(theme);
   }, [theme]);
 
+  /* Counting number of triangle filled sides  */
   useEffect(() => {
     let calculatedSidesCounter = 0;
+
     if (triangle.a) calculatedSidesCounter += 1;
     if (triangle.b) calculatedSidesCounter += 1;
     if (triangle.h) calculatedSidesCounter += 1;
 
     setNumberOfSidesCalculated(calculatedSidesCounter);
-
   }, [triangle])
   
   useEffect(() => {
@@ -219,4 +221,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Home;
