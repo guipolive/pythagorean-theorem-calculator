@@ -1,3 +1,19 @@
+:root {
+  --color-black: black;
+  --color-white: white;
+  --color-green: #09A70F;
+  --color-red: #ca1a1a;
+  --color-red2: #fa2020;
+  --color-dark-gray: darkgray;
+  /* --image-filter: 0; */
+
+  --theme-color-primary: var(--color-white);
+  --theme-color-secondary: var(--color-black);
+  --theme-color-success: var(--color-green);
+  --theme-color-danger: var(--color-red);
+  --theme-color-gray: var(--color-dark-gray);
+}
+
 html,
 body,
 body > div:first-child,
@@ -7,9 +23,10 @@ div#__next > div {
 }
 
 body {
-  background-image: url('https://media.istockphoto.com/photos/white-triangle-tiles-seamless-pattern-3d-rendering-background-picture-id927107554?b=1&k=20&m=927107554&s=170667a&w=0&h=-ZVMm1Vc7dx57Hf8J8kMhW5yMBzFr6n7gWDLrPtgm-g=');
+  background-image: url('https://images3.alphacoders.com/105/thumb-1920-1052583.jpg');
   background-position: center;
-  background-repeat: repeat;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 html,
