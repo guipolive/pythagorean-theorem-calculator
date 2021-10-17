@@ -94,6 +94,73 @@ const Home: NextPage = () => {
     )
   }
 
+  const renderInputs = () => {
+    return (
+      <div className={styles.inputs}>
+        <div className={styles.inputs__row}>
+          <p className={styles.inputs__row__title}>Lado A <span>(esquerda)</span></p>
+          <div className={styles.inputs__row__actions}>
+            <input
+              type="range"
+              min={1}
+              max={triangle.h - 1}
+              value={triangle.a}
+              onChange={e => setTriangle({...triangle, a: parseInt(e.target.value)})}
+            />
+            <input
+              type="number"
+              min={1}
+              max={triangle.h - 1}
+              onChange={e => setTriangle({...triangle, a: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.a}
+            />
+            <span onClick={() => setTriangle({...triangle, a: NaN})} >Limpar</span>
+          </div>
+        </div>
+        
+        <div className={styles.inputs__row}>
+          <p className={styles.inputs__row__title}>Lado B <span>(direita)</span></p>
+          <div className={styles.inputs__row__actions}>
+            <input
+              type="range"
+              min={1}
+              max={triangle.h - 1}
+              value={triangle.b}
+              onChange={e => setTriangle({...triangle, b: parseInt(e.target.value)})}
+            />
+            <input
+              type="number"
+              min={1}
+              max={triangle.h - 1}
+              onChange={e => setTriangle({...triangle, b: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.b}
+            />
+            <span onClick={() => setTriangle({...triangle, b: NaN})} >Limpar</span>
+          </div>
+        </div>
+          
+        <div className={styles.inputs__row}>
+          <p className={styles.inputs__row__title}>Hipotenusa <span>(baixo)</span></p>
+          <div className={styles.inputs__row__actions}>
+            <input
+              type="range"
+              min={getBiggerTriangleSize() + 1}
+              disabled={getBiggerTriangleSize() >= 99}
+              max={100}
+              value={triangle.h}
+              onChange={e => setTriangle({...triangle, h: parseInt(e.target.value)})}
+            />
+            <input
+              type="number"
+              min={1}
+              max={100}
+              onChange={e => setTriangle({...triangle, h: handleUpdateInput(e, 1, 100)})} value={triangle.h}
+            />
+            <span onClick={() => setTriangle({...triangle, h: NaN})} >Limpar</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   useEffect(() => {
     const currentTheme: 'light' | 'dark' = window.localStorage.getItem('theme') as 'light' | 'dark' ?? 'light';
     setTheme(currentTheme);
@@ -123,81 +190,19 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.pageWrapper}>
+
       <div onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} className={`${styles.actionButton} ${styles.actionButton_themeChanger}`}>
         <span>Mudar tema</span>
       </div>
+
       <div className={styles.container}>
-
         {renderTriangle()}
-
-        <div className={styles.inputs}>
-          <div className={styles.inputs__row}>
-            <p className={styles.inputs__row__title}>Lado A <span>(esquerda)</span></p>
-            <div className={styles.inputs__row__actions}>
-              <input
-                type="range"
-                min={1}
-                max={triangle.h - 1}
-                value={triangle.a}
-                onChange={e => setTriangle({...triangle, a: parseInt(e.target.value)})}
-              />
-              <input
-                type="number"
-                min={1}
-                max={triangle.h - 1}
-                onChange={e => setTriangle({...triangle, a: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.a}
-              />
-              <span onClick={() => setTriangle({...triangle, a: NaN})} >Limpar</span>
-            </div>
-          </div>
-          
-          <div className={styles.inputs__row}>
-            <p className={styles.inputs__row__title}>Lado B <span>(direita)</span></p>
-            <div className={styles.inputs__row__actions}>
-              <input
-                type="range"
-                min={1}
-                max={triangle.h - 1}
-                value={triangle.b}
-                onChange={e => setTriangle({...triangle, b: parseInt(e.target.value)})}
-              />
-              <input
-                type="number"
-                min={1}
-                max={triangle.h - 1}
-                onChange={e => setTriangle({...triangle, b: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.b}
-              />
-              <span onClick={() => setTriangle({...triangle, b: NaN})} >Limpar</span>
-            </div>
-          </div>
-            
-          <div className={styles.inputs__row}>
-            <p className={styles.inputs__row__title}>Hipotenusa <span>(baixo)</span></p>
-            <div className={styles.inputs__row__actions}>
-              <input
-                type="range"
-                min={getBiggerTriangleSize() + 1}
-                disabled={getBiggerTriangleSize() >= 99}
-                max={100}
-                value={triangle.h}
-                onChange={e => setTriangle({...triangle, h: parseInt(e.target.value)})}
-              />
-              <input
-                type="number"
-                min={1}
-                max={100}
-                onChange={e => setTriangle({...triangle, h: handleUpdateInput(e, 1, 100)})} value={triangle.h}
-              />
-              <span onClick={() => setTriangle({...triangle, h: NaN})} >Limpar</span>
-            </div>
-          </div>
-
-        </div>
-
+        {renderInputs()}
         {renderCalculateThirdSide()}
-
       </div>
+
       <div className={`${styles.actionButton} ${styles.actionButton_link}`}>
+
         <a 
           target={'_blank'}
           rel="noreferrer"
@@ -205,6 +210,7 @@ const Home: NextPage = () => {
         >
           Entrar em contato
         </a>
+        
       </div>
     </div>
   )
