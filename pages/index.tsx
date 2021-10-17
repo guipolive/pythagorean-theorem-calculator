@@ -13,7 +13,7 @@ interface ITriangle {
 
 const Home: NextPage = () => {
   const [triangle, setTriangle] = useState<ITriangle>({h: 50, a: 30, b: 40});
-  const [isTriangleCalculated, setIsTriangleCalculated] = useState<number>(0);
+  const [numberOfSidesCalculated, setNumberOfSidesCalculated] = useState<number>(0);
 
   const getBiggerTriangleSize = () => {
 
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   }
 
   const applyPythagoreanTheorem = () => {
-    if (isTriangleCalculated !== 3) {
+    if (numberOfSidesCalculated !== 3) {
       return;
     }
     const calculatedHypotenuse = Math.fround(Math.pow(triangle.h, 2));
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
   }
 
   const renderCalculateThirdSide = () => {
-    if (isTriangleCalculated === 2) {
+    if (numberOfSidesCalculated === 2) {
       return <p onClick={calculateThirdSide} className={styles.calculateThirdSide}>Calcular terceiro lado</p>;
     }
   }
@@ -78,13 +78,32 @@ const Home: NextPage = () => {
     }
   }
 
+  const renderTriangle = () => {
+
+    return (
+      <div className={triangleStyles.triangleContainer}>
+        <div
+          className={triangleStyles.triangle}
+          style={{
+            borderLeftWidth: `${triangle.a}px`,
+            borderRightWidth: `${triangle.b}px`,
+            borderBottomWidth: `${triangle.h}px`,
+          }}
+        />
+
+        {applyPythagoreanTheorem()}
+        
+      </div>
+    )
+  }
+
   useEffect(() => {
     let calculatedSidesCounter = 0;
     if (triangle.a) calculatedSidesCounter += 1;
     if (triangle.b) calculatedSidesCounter += 1;
     if (triangle.h) calculatedSidesCounter += 1;
 
-    setIsTriangleCalculated(calculatedSidesCounter);
+    setNumberOfSidesCalculated(calculatedSidesCounter);
 
   }, [triangle])
 
@@ -92,19 +111,7 @@ const Home: NextPage = () => {
     <div className={styles.pageWrapper}>
       <div className={styles.container}>
 
-        <div className={triangleStyles.triangleContainer}>
-          <div 
-            className={triangleStyles.triangle}
-            style={{
-              borderLeftWidth: `${triangle.a}px`,
-              borderRightWidth: `${triangle.b}px`,
-              borderBottomWidth: `${triangle.h}px`,
-            }}
-          />
-
-          {applyPythagoreanTheorem()}
-          
-        </div>
+        {renderTriangle()}
 
         <div className={styles.inputs}>
           <div className={styles.inputs__row}>
@@ -123,6 +130,7 @@ const Home: NextPage = () => {
                 max={triangle.h - 1}
                 onChange={e => setTriangle({...triangle, a: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.a}
               />
+              <span onClick={() => setTriangle({...triangle, a: NaN})} >Limpar</span>
             </div>
           </div>
           
@@ -142,6 +150,7 @@ const Home: NextPage = () => {
                 max={triangle.h - 1}
                 onChange={e => setTriangle({...triangle, b: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.b}
               />
+              <span onClick={() => setTriangle({...triangle, b: NaN})} >Limpar</span>
             </div>
           </div>
             
@@ -162,6 +171,7 @@ const Home: NextPage = () => {
                 max={100}
                 onChange={e => setTriangle({...triangle, h: handleUpdateInput(e, 1, 100)})} value={triangle.h}
               />
+              <span onClick={() => setTriangle({...triangle, h: NaN})} >Limpar</span>
             </div>
           </div>
 
