@@ -11,11 +11,11 @@
     height: 0;
     border-left: solid transparent;
     border-right: solid transparent;
-    border-bottom: solid black;
+    border-bottom: solid var(--theme-color-secondary);
 }
 
 .isRectangleText {
-    color: black;
+    color: var(--theme-color-secondary);
     font-size: 18px;
     font-weight: bold;
     text-align: center;
