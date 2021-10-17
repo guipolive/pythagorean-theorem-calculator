@@ -5,7 +5,6 @@
     justify-content: flex-start;
     
     padding-top: 10%;
-    padding-bottom: 10%;
     
     width: 100%;
     height: 100%;
@@ -59,6 +58,7 @@
     border: 1px solid var(--theme-color-secondary);
     border-radius: 10px;
     padding: 15px;
+    padding-bottom: 20px;
 }
 
 .inputs__row {
@@ -101,4 +101,10 @@
     color: var(--theme-color-danger);
     user-select: none;
     cursor: pointer;
+}
+
+.calculateThirdSide {
+    cursor: pointer;
+    user-select: none;
+    color: var(--theme-color-secondary);
 }

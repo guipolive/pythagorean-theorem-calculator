@@ -5,7 +5,6 @@
   --color-red: #ca1a1a;
   --color-red2: #fa2020;
   --color-dark-gray: darkgray;
-  /* --image-filter: 0; */
 
   --theme-color-primary: var(--color-white);
   --theme-color-secondary: var(--color-black);
@@ -27,6 +26,8 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  backdrop-filter: grayscale(0.8) blur(10px);
+  height: 100vh;
 }
 
 html,
