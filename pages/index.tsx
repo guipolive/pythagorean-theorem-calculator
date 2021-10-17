@@ -28,8 +28,8 @@ const Home: NextPage = () => {
     if (isTriangleCalculated !== 3) {
       return;
     }
-
-    const isRectangle = (Math.pow(triangle.h, 2)) === (Math.pow(triangle.a, 2)) + (Math.pow(triangle.b, 2));
+    const calculatedHypotenuse = Math.fround(Math.pow(triangle.h, 2));
+    const isRectangle = calculatedHypotenuse === Math.fround((Math.pow(triangle.a, 2)) + (Math.pow(triangle.b, 2)));
 
     return (
       <p
