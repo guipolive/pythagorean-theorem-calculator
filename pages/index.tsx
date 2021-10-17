@@ -1,23 +1,19 @@
 import type { NextPage } from 'next'
 import { ChangeEvent, useEffect, useState } from 'react'
+import { ITriangleResponseData, ITriangle } from '../model/Triangle';
 
 /* Styles */
 import styles from '../styles/index.module.css';
 import triangleStyles from '../styles/triangle.module.css';
-
-interface ITriangle {
-  h: number;
-  a: number;
-  b: number;
-}
+import { changeTheme } from '../utils/theme';
 
 const Home: NextPage = () => {
   const [triangle, setTriangle] = useState<ITriangle>({h: 50, a: 30, b: 40});
   const [numberOfSidesCalculated, setNumberOfSidesCalculated] = useState<number>(0);
-  const [theme, setTheme] = useState<number>(0);
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  const [triangleResponse, setTriangleResponse] = useState<ITriangleResponseData>({} as ITriangleResponseData)
 
   const getBiggerTriangleSize = () => {
-
     return (
       triangle.a >= triangle.b
         ? triangle.a
@@ -25,26 +21,28 @@ const Home: NextPage = () => {
     )
   }
 
-  const applyPythagoreanTheorem = () => {
+  const testIfIsRectangle = async () => {
+    const response = await fetch(`/api/calculate?a=${triangle.a}&b=${triangle.b}&h=${triangle.h}`);
+    const data: ITriangleResponseData = await response.json();
+
+    setTriangleResponse(data);
+  }
+
+  const renderTriangleAnswer = () => {
     if (numberOfSidesCalculated !== 3) {
       return;
     }
-    const calculatedHypotenuse = Math.fround(Math.pow(triangle.h, 2));
-    const isRectangle = calculatedHypotenuse === Math.fround((Math.pow(triangle.a, 2)) + (Math.pow(triangle.b, 2)));
 
     return (
       <p
         className={triangleStyles.isRectangleText}
         style={{
-          color: isRectangle
+          color: triangleResponse.isRectangle
             ? 'var(--theme-color-success)'
             : 'var(--theme-color-danger)'
         }}
       >
-        {isRectangle
-          ? 'É um triângulo retângulo!'
-          : 'Não é um triângulo retângulo...'
-        }
+        {triangleResponse.message}
       </p>
     )
   }
@@ -80,7 +78,6 @@ const Home: NextPage = () => {
   }
 
   const renderTriangle = () => {
-
     return (
       <div className={triangleStyles.triangleContainer}>
         <div
@@ -91,32 +88,21 @@ const Home: NextPage = () => {
             borderBottomWidth: `${triangle.h}px`,
           }}
         />
-        {applyPythagoreanTheorem()}
+        {renderTriangleAnswer()}
         
       </div>
     )
   }
 
   useEffect(() => {
-    setTheme(parseInt(window.localStorage.getItem('theme') || '0'));
+    const currentTheme: 'light' | 'dark' = window.localStorage.getItem('theme') as 'light' | 'dark' ?? 'light';
+    setTheme(currentTheme);
+
+    testIfIsRectangle();
   }, [])
 
   useEffect(() => {
-    /* Dark */
-    if(theme % 2 > 0){
-      document.documentElement.style.setProperty("--color-black", '#FFFF');    
-      document.documentElement.style.setProperty("--color-white", "#212121");
-      document.documentElement.style.setProperty("--theme-color-danger", "var(--color-red2)");
-    }
-    /* Light */
-    else {
-      document.documentElement.style.setProperty("--color-black", '#212121');    
-      document.documentElement.style.setProperty("--color-white", "#FFFF");
-      document.documentElement.style.setProperty("--theme-color-danger", "var(--color-red)");
-    }
-
-    window.localStorage.setItem('theme', theme.toString());
-
+    changeTheme(theme);
   }, [theme]);
 
   useEffect(() => {
@@ -128,10 +114,16 @@ const Home: NextPage = () => {
     setNumberOfSidesCalculated(calculatedSidesCounter);
 
   }, [triangle])
+  
+  useEffect(() => {
+    if (numberOfSidesCalculated === 3) {
+      testIfIsRectangle();
+    }
+  }, [triangle, numberOfSidesCalculated])
 
   return (
     <div className={styles.pageWrapper}>
-      <div onClick={() => setTheme(theme + 1)} className={`${styles.actionButton} ${styles.actionButton_themeChanger}`}>
+      <div onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} className={`${styles.actionButton} ${styles.actionButton_themeChanger}`}>
         <span>Mudar tema</span>
       </div>
       <div className={styles.container}>
@@ -212,7 +204,7 @@ const Home: NextPage = () => {
           href={'https://guipo.notion.site'}
         >
           Entrar em contato
-          </a>
+        </a>
       </div>
     </div>
   )
