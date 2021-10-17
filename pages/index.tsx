@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 /* Styles */
 import styles from '../styles/index.module.css';
@@ -13,6 +13,7 @@ interface ITriangle {
 
 const Home: NextPage = () => {
   const [triangle, setTriangle] = useState<ITriangle>({h: 50, a: 30, b: 40});
+  const [isTriangleCalculated, setIsTriangleCalculated] = useState<number>(0);
 
   const getBiggerTriangleSize = () => {
 
@@ -24,6 +25,10 @@ const Home: NextPage = () => {
   }
 
   const applyPythagoreanTheorem = () => {
+    if (isTriangleCalculated !== 3) {
+      return;
+    }
+
     const isRectangle = (Math.pow(triangle.h, 2)) === (Math.pow(triangle.a, 2)) + (Math.pow(triangle.b, 2));
 
     return (
@@ -55,6 +60,34 @@ const Home: NextPage = () => {
     return newValue;
   }
 
+  const renderCalculateThirdSide = () => {
+    if (isTriangleCalculated === 2) {
+      return <p onClick={calculateThirdSide} className={styles.calculateThirdSide}>Calcular terceiro lado</p>;
+    }
+  }
+
+  const calculateThirdSide = () => {
+    if (triangle.h) {
+      if (triangle.a) {
+        setTriangle({...triangle, b: Math.fround(Math.sqrt((Math.pow(triangle.h, 2)) - (Math.pow(triangle.a, 2))))})
+      } else {
+        setTriangle({...triangle, a: Math.fround(Math.sqrt((Math.pow(triangle.h, 2)) - (Math.pow(triangle.b, 2))))})
+    }
+    } else {
+      setTriangle({...triangle, h: Math.sqrt(Math.pow(triangle.a, 2) + (Math.pow(triangle.b, 2)))})
+    }
+  }
+
+  useEffect(() => {
+    let calculatedSidesCounter = 0;
+    if (triangle.a) calculatedSidesCounter += 1;
+    if (triangle.b) calculatedSidesCounter += 1;
+    if (triangle.h) calculatedSidesCounter += 1;
+
+    setIsTriangleCalculated(calculatedSidesCounter);
+
+  }, [triangle])
+
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.container}>
@@ -73,52 +106,69 @@ const Home: NextPage = () => {
           
         </div>
 
-        <input
-          type="number"
-          min={1}
-          max={triangle.h - 1}
-          onChange={e => setTriangle({...triangle, a: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.a}
-        />
-        <input
-          type="number"
-          min={1}
-          max={triangle.h - 1}
-          onChange={e => setTriangle({...triangle, b: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.b}
-        />
-        <input
-          type="number"
-          min={1}
-          max={100}
-          onChange={e => setTriangle({...triangle, h: handleUpdateInput(e, 1, 100)})} value={triangle.h}
-        />
+        <div className={styles.inputs}>
+          <div className={styles.inputs__row}>
+            <p className={styles.inputs__row__title}>Lado A</p>
+            <div className={styles.inputs__row__actions}>
+              <input
+                type="range"
+                min={1}
+                max={triangle.h - 1}
+                value={triangle.a}
+                onChange={e => setTriangle({...triangle, a: parseInt(e.target.value)})}
+              />
+              <input
+                type="number"
+                min={1}
+                max={triangle.h - 1}
+                onChange={e => setTriangle({...triangle, a: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.a}
+              />
+            </div>
+          </div>
+          
+          <div className={styles.inputs__row}>
+            <p className={styles.inputs__row__title}>Lado B</p>
+            <div className={styles.inputs__row__actions}>
+              <input
+                type="range"
+                min={1}
+                max={triangle.h - 1}
+                value={triangle.b}
+                onChange={e => setTriangle({...triangle, b: parseInt(e.target.value)})}
+              />
+              <input
+                type="number"
+                min={1}
+                max={triangle.h - 1}
+                onChange={e => setTriangle({...triangle, b: handleUpdateInput(e, 1, triangle.h - 1)})} value={triangle.b}
+              />
+            </div>
+          </div>
+            
+          <div className={styles.inputs__row}>
+            <p className={styles.inputs__row__title}>Hipotenusa</p>
+            <div className={styles.inputs__row__actions}>
+              <input
+                type="range"
+                min={getBiggerTriangleSize() + 1}
+                disabled={getBiggerTriangleSize() >= 99}
+                max={100}
+                value={triangle.h}
+                onChange={e => setTriangle({...triangle, h: parseInt(e.target.value)})}
+              />
+              <input
+                type="number"
+                min={1}
+                max={100}
+                onChange={e => setTriangle({...triangle, h: handleUpdateInput(e, 1, 100)})} value={triangle.h}
+              />
+            </div>
+          </div>
 
-        <div>
-          <input
-            type="range"
-            min={1}
-            max={triangle.h - 1}
-            value={triangle.a}
-            onChange={e => setTriangle({...triangle, a: parseInt(e.target.value)})}
-          />
-          <input
-            type="range"
-            min={1}
-            max={triangle.h - 1}
-            value={triangle.b}
-            onChange={e => setTriangle({...triangle, b: parseInt(e.target.value)})}
-          />
-          <input
-            type="range"
-            min={getBiggerTriangleSize() + 1}
-            disabled={getBiggerTriangleSize() >= 99}
-            max={100}
-            value={triangle.h}
-            onChange={e => setTriangle({...triangle, h: parseInt(e.target.value)})}
-          />
         </div>
 
+        {renderCalculateThirdSide()}
 
-        
       </div>
     </div>
   )
