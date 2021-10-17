@@ -91,7 +91,6 @@ const Home: NextPage = () => {
             borderBottomWidth: `${triangle.h}px`,
           }}
         />
-
         {applyPythagoreanTheorem()}
         
       </div>
@@ -141,7 +140,7 @@ const Home: NextPage = () => {
 
         <div className={styles.inputs}>
           <div className={styles.inputs__row}>
-            <p className={styles.inputs__row__title}>Lado A</p>
+            <p className={styles.inputs__row__title}>Lado A <span>(esquerda)</span></p>
             <div className={styles.inputs__row__actions}>
               <input
                 type="range"
@@ -161,7 +160,7 @@ const Home: NextPage = () => {
           </div>
           
           <div className={styles.inputs__row}>
-            <p className={styles.inputs__row__title}>Lado B</p>
+            <p className={styles.inputs__row__title}>Lado B <span>(direita)</span></p>
             <div className={styles.inputs__row__actions}>
               <input
                 type="range"
@@ -181,7 +180,7 @@ const Home: NextPage = () => {
           </div>
             
           <div className={styles.inputs__row}>
-            <p className={styles.inputs__row__title}>Hipotenusa</p>
+            <p className={styles.inputs__row__title}>Hipotenusa <span>(baixo)</span></p>
             <div className={styles.inputs__row__actions}>
               <input
                 type="range"
